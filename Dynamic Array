@@ -1,0 +1,119 @@
+#include <bits/stdc++.h>
+
+template <typename T>
+class DynamicArray {
+private:
+    const int lambda = 1;
+    T* values;
+    size_t capacity;
+    size_t size;
+
+    void ensure_capacity() {
+        if (size < capacity) return;
+        
+        size_t new_capacity = capacity * (1 + lambda);
+        T* new_values = new T[new_capacity];
+        
+        std::move(values, values + size, new_values);
+        
+        delete[] values;
+        values = new_values;
+        capacity = new_capacity;
+    }
+
+public:
+    class Iterator {
+    private:
+        T* pointer;
+
+    public:
+        Iterator(T* p) : pointer(p) {}
+
+        const T& operator*() const {
+            return *pointer;
+        }
+
+        Iterator& operator++() {
+            ++pointer;
+            return *this;
+        }
+
+        bool operator!=(const Iterator& other) const {
+            return pointer != other.pointer;
+        }
+    };
+
+    DynamicArray() : lambda(1), values(new T[1]), capacity(1), size(0) {}
+
+    ~DynamicArray() {
+        delete[] values;
+    }
+
+    void push_back(const T& value) {
+        ensure_capacity();
+        values[size++] = value;
+    }
+
+    void insert(size_t pos_before, const T& value) {
+        ensure_capacity();
+
+        for (size_t i = size; i > pos_before; --i) {
+            values[i] = std::move(values[i - 1]);
+        }
+        
+        values[pos_before] = value;
+        ++size;
+    }
+    
+    void erase(size_t pos) {
+        for (size_t i = pos; i < size - 1; ++i) {
+            values[i] = std::move(values[i + 1]);
+        }
+        
+        --size;
+    }
+
+    size_t getSize() const {
+        return size;
+    }
+
+    const T& operator[](size_t index) const {
+        return values[index];
+    }
+
+    T& operator[](size_t index) {
+        return values[index];
+    }
+
+    Iterator begin() {
+        return Iterator(values);
+    }
+
+    const Iterator begin() const {
+        return Iterator(values);
+    }
+
+    Iterator end() {
+        return Iterator(values + size);
+    }
+
+    const Iterator end() const {
+        return Iterator(values + size);
+    }
+
+
+};
+
+template <typename T>
+const typename DynamicArray<T>::Iterator& find(const typename DynamicArray<T>::Iterator& begin, const typename DynamicArray<T>::Iterator& end, const T& value) {
+        
+        for (auto& it = begin; it != end; it++) {
+            if (*it == value) {
+                return it;
+            }
+        }
+        return end; 
+    }
+int main() {
+std::cout << "Hello, World!" << "\n";
+}
