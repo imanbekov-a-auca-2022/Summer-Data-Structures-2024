@@ -113,7 +113,8 @@ const typename DynamicArray<T>::Iterator& find(const typename DynamicArray<T>::I
             }
         }
         return end; 
-    }
+}
+
 int main() {
 std::cout << "Hello, World!" << "\n";
 }
