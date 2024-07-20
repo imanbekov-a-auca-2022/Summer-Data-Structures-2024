@@ -339,5 +339,56 @@ public:
 
 int main()
 {
-    std::cout << "Hello, world";
+    search_tree<int> tree;
+
+    tree.insert(10);
+    tree.insert(20);
+    tree.insert(5);
+    tree.insert(15);
+    tree.insert(25);
+
+    for (auto it = tree.begin(); it != tree.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << "\n";
+
+    auto it = tree.find(15);
+    if (it != tree.end())
+    {
+        std::cout << *it << "\n";
+    }
+    else
+    {
+        std::cout << "\n";
+    }
+
+    it = tree.lower_bound(18);
+    if (it != tree.end())
+    {
+        std::cout << *it << "\n";
+    }
+    else
+    {
+        std::cout << "\n";
+    }
+
+    it = tree.upper_bound(18);
+    if (it != tree.end())
+    {
+        std::cout << *it << "\n";
+    }
+    else
+    {
+        std::cout << "\n";
+    }
+
+    tree.erase(15);
+    for (auto it = tree.begin(); it != tree.end(); ++it)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << "\n";
+
+    return 0;
 }
